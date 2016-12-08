@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.SwingUtilities;
 
+import hu.elte.inetsense.common.util.PropertyUtil;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import hu.elte.inetsense.probe.controller.InetsenseProbeController;
@@ -17,6 +18,12 @@ public class InetsenseProbeLauncher {
 	// !!!!!!!!!!!!!!!!!!!!
 
 	public static void main(final String[] args) throws InvocationTargetException, InterruptedException {
+
+		// HACK: non-JVM argument parsing because of JNLP verification
+		if (0 < args.length && args[0].equals("--headless=true")) {
+			System.setProperty("headless", "true");
+		}
+
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(ProbeConfiguration.class);
 		context.registerShutdownHook();
 		InetsenseProbeController app = context.getBean(InetsenseProbeController.class);

@@ -73,7 +73,7 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>${env.JAVA_HOME}\bin\keytool</executable>
+							<executable>${env.JAVA_HOME}/bin/keytool</executable>
 							<workingDirectory>${project.build.directory}/classes/jnlp</workingDirectory>
 							<arguments>
 								<argument>-genkey</argument>
@@ -105,7 +105,7 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>${env.JAVA_HOME}\bin\jarsigner</executable>
+							<executable>${env.JAVA_HOME}/bin/jarsigner</executable>
 							<workingDirectory>${project.build.directory}</workingDirectory>
 							<arguments>
 <!-- 								<argument>-tsa</argument> -->

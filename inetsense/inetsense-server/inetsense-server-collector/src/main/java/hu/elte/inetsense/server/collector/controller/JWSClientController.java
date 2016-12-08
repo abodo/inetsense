@@ -32,16 +32,26 @@ public class JWSClientController {
     
     @RequestMapping(path = "/jnlp", method = RequestMethod.GET, produces = {"application/x-java-jnlp-file"})
     public String showJnlp(Model model, HttpServletRequest request, HttpServletResponse response) {
+        buildResponse("inetsense.jnlp", model, request, response);
+        return "inetsense-jnlp";
+    }
+
+    @RequestMapping(path = "/headless", method = RequestMethod.GET, produces = {"application/x-java-jnlp-file"})
+    public String showHeadlessJnlp(Model model, HttpServletRequest request, HttpServletResponse response) {
+        buildResponse("inetsense-headless.jnlp", model, request, response);
+        return "inetsense-jnlp-headless";
+    }
+
+    protected void buildResponse(String filename, Model model, HttpServletRequest request, HttpServletResponse response) {
         response.setContentType("application/x-java-jnlp-file");
         response.setHeader("Content-Type", "application/x-java-jnlp-file");
         response.setHeader("Content-Disposition", "File Transfer");
-        response.setHeader("Content-Disposition", "attachment;filename=inetsense.jnlp");
+        response.setHeader("Content-Disposition", "attachment;filename=" + filename);
         response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");
         response.setHeader("Pragma","no-cache");
         response.setDateHeader("Expires", 0);
         String codeBase = getCodeBase(request);
         model.addAttribute("codebase", codeBase);
-        return "inetsense-jnlp"; 
     }
 
     protected String getCodeBase(HttpServletRequest request) {

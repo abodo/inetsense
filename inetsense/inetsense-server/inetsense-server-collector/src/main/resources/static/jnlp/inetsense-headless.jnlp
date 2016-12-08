@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp spec="1.0+" codebase="">
+    <information>
+        <title>Inetsense Desktop Probe - ${project.version}</title>
+        <vendor>dwtv1v.elte</vendor>
+    </information>
+    <security>
+        <all-permissions></all-permissions>
+    </security>
+    <resources>
+        <!-- Application Resources -->
+        <j2se version="1.8+" href="http://java.sun.com/products/autodl/j2se"></j2se>
+        <jar href="/jnlp/inetsense-probe-desktop-${project.version}.jar" main="true"></jar>
+
+    </resources>
+    <application-desc
+            name="Inetsense Desktop Probe - ${project.version}"
+            main-class="hu.elte.inetsense.probe.InetsenseProbeLauncher"
+            width="300"
+            height="300">
+        <argument>--headless=true</argument>
+    </application-desc>
+    <update check="background"></update>
+</jnlp>
