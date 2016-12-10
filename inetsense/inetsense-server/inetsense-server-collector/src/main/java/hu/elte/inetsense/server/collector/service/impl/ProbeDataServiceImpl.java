@@ -1,5 +1,6 @@
 package hu.elte.inetsense.server.collector.service.impl;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -21,6 +22,7 @@ import hu.elte.inetsense.server.data.entities.probe.Probe;
 import hu.elte.inetsense.server.data.repository.MeasurementRepository;
 import hu.elte.inetsense.server.data.repository.ProbeRepository;
 
+
 /**
  * @author Zsolt Istvanfi
  */
@@ -29,18 +31,20 @@ import hu.elte.inetsense.server.data.repository.ProbeRepository;
 public class ProbeDataServiceImpl implements ProbeDataService {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
-
+    
     @Autowired
     private ProbeRepository probeRepository;
-    
+
     @Autowired
     private MeasurementRepository measurementRepository;
-    
+
     @Autowired
     private MeasurementConverter measurementConverter;
-    
+
     @Autowired ClockService clockService;
     
+    @Autowired AlertLogServiceImpl alertLogService;
+
     @Autowired
     private JmsTemplate jmsTemplate;
 
@@ -62,6 +66,7 @@ public class ProbeDataServiceImpl implements ProbeDataService {
 
 	private void processMeasurement(Probe probe, MeasurementDTO measurementDTO) {
 		Measurement measurement = createMeasurement(probe, measurementDTO);
+		alertLogService.process(probe, measurement);
         measurementRepository.save(measurement);
 	}
 
