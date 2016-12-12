@@ -32,7 +32,8 @@ public class AlertConfig implements Serializable {
 		this.id = id;
 	}
 
-	@Enumerated(EnumType.STRING	)
+	@Enumerated(EnumType.STRING)
+	@Column(name = "alert_type_id", nullable = false)
 	public AlertType getAlertType() {
 		return alertType;
 	}

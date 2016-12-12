@@ -22,7 +22,6 @@ public class AlertLog implements Serializable {
 
 	private Long id;
 	private Probe probe;
-	private AlertType alertType;
 	private Date startTime;
 	private Date endTime;
 	private Long count;
@@ -48,16 +47,6 @@ public class AlertLog implements Serializable {
 
 	public void setProbe(final Probe probe) {
 		this.probe = probe;
-	}
-
-	@Enumerated(EnumType.STRING)
-	public AlertType getAlertType() {
-		return alertType;
-	}
-
-	@Column(name = "alert_type", nullable = false)
-	public void setAlertType(AlertType alertType) {
-		this.alertType = alertType;
 	}
 
 	@Column(name = "start_time", nullable = false)
@@ -86,6 +75,7 @@ public class AlertLog implements Serializable {
 		this.count = count;
 	}
 
+	@Column(name = "my_limit")
 	public Long getLimit() {
 		return limit;
 	}

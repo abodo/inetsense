@@ -21,6 +21,7 @@ import hu.elte.inetsense.server.data.entities.Measurement;
 import hu.elte.inetsense.server.data.entities.probe.Probe;
 import hu.elte.inetsense.server.data.repository.MeasurementRepository;
 import hu.elte.inetsense.server.data.repository.ProbeRepository;
+import hu.elte.inetsense.server.collector.service.impl.AlertLogServiceImpl;
 
 
 /**
