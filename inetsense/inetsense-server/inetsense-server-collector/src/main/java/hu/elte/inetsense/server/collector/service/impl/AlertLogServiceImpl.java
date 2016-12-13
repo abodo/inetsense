@@ -30,20 +30,25 @@ public class AlertLogServiceImpl {
 	
 	public void process(Probe probe, Measurement measurement){
 		List<AlertConfig> allConfig = alertConfigurationRepository.findAll();
+		List<AlertLog> allAlertLogs = alertLogRepository.findAll();			
+		Long nextAlertLogId = getNextAlertLogId(allAlertLogs);
 
+		log.info(((Integer)allAlertLogs.size()).toString());
 		for(AlertConfig alertConfig : allConfig){
 			if(alertConfig.getAlertType() == AlertType.DOWNLOAD){
 				if(alertConfig.getRelation().equals("<")){
 					Long downloadSpeed = measurement.getDownloadSpeed();
 					Long configDownloadSpeed = alertConfig.getLimit();
 					if(downloadSpeed < configDownloadSpeed){
-						insertAlert(alertConfig,probe,measurement);
+						insertAlert(alertConfig,probe,measurement,nextAlertLogId);
+						nextAlertLogId++;
 					}
 				}else if(alertConfig.getRelation().equals(">")){
 					Long downloadSpeed = measurement.getDownloadSpeed();
 					Long configDownloadSpeed = alertConfig.getLimit();
 					if(downloadSpeed > configDownloadSpeed){
-						insertAlert(alertConfig,probe,measurement);
+						insertAlert(alertConfig,probe,measurement,nextAlertLogId);
+						nextAlertLogId++;
 					}
 				}
 			}else if(alertConfig.getAlertType() == AlertType.UPLOAD){
@@ -51,20 +56,34 @@ public class AlertLogServiceImpl {
 					Long uploadSpeed = measurement.getUploadSpeed();
 					Long configUploadSpeed = alertConfig.getLimit();
 					if(uploadSpeed < configUploadSpeed){
-						insertAlert(alertConfig,probe,measurement);
+						insertAlert(alertConfig,probe,measurement,nextAlertLogId);
+						nextAlertLogId++;
 					}
 				}else if(alertConfig.getRelation().equals(">")){
 					Long uploadSpeed = measurement.getUploadSpeed();
 					Long configUploadSpeed = alertConfig.getLimit();
 					if(uploadSpeed > configUploadSpeed){
-						insertAlert(alertConfig,probe,measurement);
+						insertAlert(alertConfig,probe,measurement,nextAlertLogId);
+						nextAlertLogId++;
 					}
 				}
 			}
+			
 		}
 	}
 	
-	private void insertAlert(AlertConfig alertConfig,Probe probe,Measurement measurement){
+	private Long getNextAlertLogId(List<AlertLog> alertLogList){
+		Long nextId = (long)0;
+		for(int i = 0; i < alertLogList.size();++i){
+			if(alertLogList.get(i).getId() > nextId){
+				nextId = alertLogList.get(i).getId();
+			}
+		}
+		nextId++;
+		return nextId;
+	}
+	
+	private void insertAlert(AlertConfig alertConfig,Probe probe,Measurement measurement, Long nextId){
 		String logForConsole = "message:"+alertConfig.getAlertMessage()+
 				" count: 1"+
 				" startTime:"+measurement.getCreatedOn()+
@@ -75,18 +94,21 @@ public class AlertLogServiceImpl {
 				" alertType:"+alertConfig.getAlertType()+
 				" downloadSpeed:"+measurement.getDownloadSpeed()+
 				" uploadSpeed:"+measurement.getUploadSpeed()+
-				" configSpeed:"+alertConfig.getLimit();
+				" configSpeed:"+alertConfig.getLimit()+
+				" nextId:"+ nextId;
 		log.info(logForConsole);
-
+		
+		String alertMessage = " alertType:"+alertConfig.getAlertType()+" ,DownloadSpeed:"+measurement.getDownloadSpeed()+" UploadSpeed:"+measurement.getUploadSpeed();
 		AlertLog alert_log = new AlertLog();
-		alert_log.setId((long)101);
-		alert_log.setAlertMessage(alertConfig.getAlertMessage());
+		alert_log.setId(nextId);
+		alert_log.setLimit(alertConfig.getLimit());
+		alert_log.setAlertMessage(alertMessage);
 		alert_log.setCount((long)1);
 		alert_log.setStartTime(measurement.getCreatedOn());
 		alert_log.setEndTime(measurement.getCreatedOn());
 		alert_log.setRelation(alertConfig.getRelation());
 		alert_log.setProbe(probe);
-		alert_log.setSeverity((long)1);
+		alert_log.setSeverity(alertConfig.getSeverity());
 		alertLogRepository.save(alert_log);
 	}
 }
