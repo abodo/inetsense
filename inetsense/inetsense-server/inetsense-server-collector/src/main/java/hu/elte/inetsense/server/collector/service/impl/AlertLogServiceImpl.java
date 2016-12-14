@@ -35,36 +35,38 @@ public class AlertLogServiceImpl {
 
 		log.info(((Integer)allAlertLogs.size()).toString());
 		for(AlertConfig alertConfig : allConfig){
-			if(alertConfig.getAlertType() == AlertType.DOWNLOAD){
-				if(alertConfig.getRelation().equals("<")){
-					Long downloadSpeed = measurement.getDownloadSpeed();
-					Long configDownloadSpeed = alertConfig.getLimit();
-					if(downloadSpeed < configDownloadSpeed){
-						insertAlert(alertConfig,probe,measurement,nextAlertLogId);
-						nextAlertLogId++;
+			if(alertConfig.getEnabled()){
+				if(alertConfig.getAlertType() == AlertType.DOWNLOAD){
+					if(alertConfig.getRelation().equals("<")){
+						Long downloadSpeed = measurement.getDownloadSpeed();
+						Long configDownloadSpeed = alertConfig.getLimit();
+						if(downloadSpeed < configDownloadSpeed){
+							insertAlert(alertConfig,probe,measurement,nextAlertLogId);
+							nextAlertLogId++;
+						}
+					}else if(alertConfig.getRelation().equals(">")){
+						Long downloadSpeed = measurement.getDownloadSpeed();
+						Long configDownloadSpeed = alertConfig.getLimit();
+						if(downloadSpeed > configDownloadSpeed){
+							insertAlert(alertConfig,probe,measurement,nextAlertLogId);
+							nextAlertLogId++;
+						}
 					}
-				}else if(alertConfig.getRelation().equals(">")){
-					Long downloadSpeed = measurement.getDownloadSpeed();
-					Long configDownloadSpeed = alertConfig.getLimit();
-					if(downloadSpeed > configDownloadSpeed){
-						insertAlert(alertConfig,probe,measurement,nextAlertLogId);
-						nextAlertLogId++;
-					}
-				}
-			}else if(alertConfig.getAlertType() == AlertType.UPLOAD){
-				if(alertConfig.getRelation().equals("<")){
-					Long uploadSpeed = measurement.getUploadSpeed();
-					Long configUploadSpeed = alertConfig.getLimit();
-					if(uploadSpeed < configUploadSpeed){
-						insertAlert(alertConfig,probe,measurement,nextAlertLogId);
-						nextAlertLogId++;
-					}
-				}else if(alertConfig.getRelation().equals(">")){
-					Long uploadSpeed = measurement.getUploadSpeed();
-					Long configUploadSpeed = alertConfig.getLimit();
-					if(uploadSpeed > configUploadSpeed){
-						insertAlert(alertConfig,probe,measurement,nextAlertLogId);
-						nextAlertLogId++;
+				}else if(alertConfig.getAlertType() == AlertType.UPLOAD){
+					if(alertConfig.getRelation().equals("<")){
+						Long uploadSpeed = measurement.getUploadSpeed();
+						Long configUploadSpeed = alertConfig.getLimit();
+						if(uploadSpeed < configUploadSpeed){
+							insertAlert(alertConfig,probe,measurement,nextAlertLogId);
+							nextAlertLogId++;
+						}
+					}else if(alertConfig.getRelation().equals(">")){
+						Long uploadSpeed = measurement.getUploadSpeed();
+						Long configUploadSpeed = alertConfig.getLimit();
+						if(uploadSpeed > configUploadSpeed){
+							insertAlert(alertConfig,probe,measurement,nextAlertLogId);
+							nextAlertLogId++;
+						}
 					}
 				}
 			}
