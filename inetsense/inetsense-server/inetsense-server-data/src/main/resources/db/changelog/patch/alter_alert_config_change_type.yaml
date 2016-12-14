@@ -1,9 +1,9 @@
 databaseChangeLog:
   - changeSet:
-    id: alter_alert_config_change_type
-    author: szulyakakos
-    changes:
-    - modifyDataType:
-        tableName: alert_config
-        columnName: alert_type_id
-        newDataType: varchar(50)
+      id: alter_alert_config_change_type
+      author: szulyakakos
+      changes:
+        - modifyDataType:
+            tableName: alert_config
+            columnName: alert_type_id
+            newDataType: varchar(50)
