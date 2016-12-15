@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AlertConfigurationRepository extends JpaRepository<AlertConfig, String>{
-	List<AlertConfig> findAll();
+	
 }

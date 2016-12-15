@@ -15,6 +15,9 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
 
 @Entity
 public class AlertLog implements Serializable {
@@ -31,6 +34,7 @@ public class AlertLog implements Serializable {
 	private String relation;
 
 	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
 	}
