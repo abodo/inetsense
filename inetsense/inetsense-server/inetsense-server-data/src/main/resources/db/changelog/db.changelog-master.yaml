@@ -44,3 +44,6 @@ databaseChangeLog:
   - include:
       file: patch/create_probe_configuration.yaml
       relativeToChangelogFile: true
+  - include:
+      file: patch/alter_alert_config_change_type.yaml
+      relativeToChangelogFile: true

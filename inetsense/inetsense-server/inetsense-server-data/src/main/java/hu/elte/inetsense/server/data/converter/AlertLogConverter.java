@@ -19,7 +19,6 @@ public class AlertLogConverter extends AbstractConverter<AlertLogDTO, AlertLog> 
 		AlertLog alertLog = new AlertLog();
 		alertLog.setId(alertLogDto.getId());
 		alertLog.setProbe(probe);
-		alertLog.setAlertType(alertLogDto.getAlertType());
 		alertLog.setStartTime(alertLogDto.getStartTime());
 		alertLog.setEndTime(alertLogDto.getEndTime());
 		alertLog.setCount(alertLogDto.getCount());
@@ -35,7 +34,6 @@ public class AlertLogConverter extends AbstractConverter<AlertLogDTO, AlertLog> 
 		AlertLogDTO alertLogDto = new AlertLogDTO();
 		ProbeDTO probeDto = probeConverter.convertToDto(alertLog.getProbe());
 		alertLogDto.setAlertMessage(alertLog.getAlertMessage());
-		alertLogDto.setAlertType(alertLog.getAlertType());
 		alertLogDto.setCount(alertLog.getCount());
 		alertLogDto.setEndTime(alertLog.getEndTime());
 		alertLogDto.setId(alertLog.getId());
